@@ -28,23 +28,19 @@ minecraft {
     mappings channel: 'snapshot', version: "${mcp_mappings}"
 
     runs {
-        client = {
-            // recommended logging data for a userdev environment
+        client {
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             source sourceSets.main
         }
-        server = {
-            // recommended logging data for a userdev environment
+        server {
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             source sourceSets.main
         }
-        data = {
+        data {
             workingDirectory project.file('run').canonicalPath
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
