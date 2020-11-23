@@ -5,9 +5,11 @@ import me.arcanox.multipart.common.capabilities.Capabilities;
 import me.arcanox.multipart.common.capabilities.VanillaMultipartHandler;
 import me.arcanox.multipart.common.tiles.TileEntities;
 import me.arcanox.multipart.util.Log;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -21,13 +23,21 @@ public class MultipartMod {
 	public MultipartMod() {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		
-		eventBus.addListener( this::onCommonInit );
+		// Subscribe to common setup event
+		eventBus.addListener( this::onCommonSetup );
+		
+		// Subscribe to client setup event
+		DistExecutor.unsafeRunWhenOn( Dist.CLIENT, () -> () -> {
+			ClientSetup clientSetup = new ClientSetup();
+			
+			eventBus.addListener( clientSetup::onClientSetup );
+		} );
 		
 		Blocks.register( eventBus );
 		TileEntities.register( eventBus );
 	}
 	
-	private void onCommonInit( final FMLCommonSetupEvent event ) {
+	private void onCommonSetup( final FMLCommonSetupEvent event ) {
 		Log.info( "Beginning common setup for " + MOD_ID );
 		
 		Capabilities.register();
@@ -36,10 +46,11 @@ public class MultipartMod {
 		Log.info( "Common setup for " + MOD_ID + " is complete" );
 	}
 	
-	@Mod.EventBusSubscriber( value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD )
-	public static class ClientEventSubscriber {
-		private void onClientInit( final FMLClientSetupEvent event ) {
+	static class ClientSetup {
+		private void onClientSetup( final FMLClientSetupEvent event ) {
 			Log.info( "Beginning client setup for " + MOD_ID );
+			
+			// TODO: Register client stuff
 			
 			Log.info( "Client setup for " + MOD_ID + " is complete" );
 		}
