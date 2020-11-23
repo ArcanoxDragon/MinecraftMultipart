@@ -2,9 +2,11 @@ package me.arcanox.multipart;
 
 import me.arcanox.multipart.common.blocks.Blocks;
 import me.arcanox.multipart.common.capabilities.Capabilities;
+import me.arcanox.multipart.common.capabilities.VanillaMultipartHandler;
 import me.arcanox.multipart.common.tiles.TileEntities;
 import me.arcanox.multipart.util.Log;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -28,8 +30,8 @@ public class MultipartMod {
 	private void onCommonInit( final FMLCommonSetupEvent event ) {
 		Log.info( "Beginning common setup for " + MOD_ID );
 		
-		// Register Capabilities during common setup
 		Capabilities.register();
+		MinecraftForge.EVENT_BUS.register( new VanillaMultipartHandler() );
 		
 		Log.info( "Common setup for " + MOD_ID + " is complete" );
 	}
