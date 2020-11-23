@@ -8,6 +8,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 
 public interface ICanPlaceMultipart {
-	boolean canPlaceIntoBlock( IWorldReader world, PlayerEntity player, ItemStack itemStack, BlockPos pos, Direction clickedFace );
-	void placeIntoBlock( IWorld world, PlayerEntity player, ItemStack itemStack, BlockPos pos, Direction clickedFace );
+	boolean canPlaceMultipart( IWorldReader world, PlayerEntity player, ItemStack itemStack, BlockPos pos, Direction clickedFace );
+	void placeMultipart( IWorld world, PlayerEntity player, ItemStack itemStack, BlockPos pos, Direction clickedFace );
 }

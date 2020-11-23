@@ -67,8 +67,8 @@ public class VanillaMultipartHandler {
 			BlockPos   clickedIntoPos   = event.getPos().offset( clickedFace );
 			BlockState clickedIntoState = world.getBlockState( clickedIntoPos );
 			
-			if ( placer.canPlaceIntoBlock( world, player, itemStack, clickedIntoPos, clickedFace ) ) {
-				placer.placeIntoBlock( world, player, itemStack, clickedIntoPos, clickedFace );
+			if ( placer.canPlaceMultipart( world, player, itemStack, clickedIntoPos, clickedFace ) ) {
+				placer.placeMultipart( world, player, itemStack, clickedIntoPos, clickedFace );
 				event.setCancellationResult( ActionResultType.SUCCESS );
 				event.setCanceled( true );
 			}
