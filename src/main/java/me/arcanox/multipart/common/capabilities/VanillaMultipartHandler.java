@@ -1,11 +1,8 @@
 package me.arcanox.multipart.common.capabilities;
 
-import me.arcanox.multipart.MultipartMod;
-import me.arcanox.multipart.api.Constants;
 import me.arcanox.multipart.api.common.capabilities.multipart.ICanPlaceMultipart;
 import me.arcanox.multipart.util.ArrayUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -13,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
@@ -27,12 +24,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  */
 public class VanillaMultipartHandler {
 	public static final Item[] MULTIPART_COMPATIBLE_ITEMS = {
-		Items.TORCH
+		Items.TORCH,
+		Items.REDSTONE_TORCH,
+		Items.SOUL_TORCH
 	};
 	
 	public static final Block[] MULTIPART_COMPATIBLE_BLOCKS = {
 		Blocks.TORCH,
-		Blocks.WALL_TORCH
+		Blocks.WALL_TORCH,
+		Blocks.REDSTONE_TORCH,
+		Blocks.REDSTONE_WALL_TORCH,
+		Blocks.SOUL_TORCH,
+		Blocks.SOUL_WALL_TORCH
 	};
 	
 	@SubscribeEvent
@@ -43,7 +46,7 @@ public class VanillaMultipartHandler {
 			return;
 		
 		if ( !itemStack.getCapability( Capabilities.MULTIPART_PLACER ).isPresent() ) {
-			event.addCapability( new ResourceLocation( MultipartMod.MOD_ID, Constants.Capabilities.MULTIPART_PLACER ), new VanillaMultipartProvider() );
+			event.addCapability( VanillaMultipartProvider.PROVIDER_KEY, new VanillaMultipartProvider() );
 		}
 	}
 	
@@ -52,6 +55,7 @@ public class VanillaMultipartHandler {
 		World        world     = event.getWorld();
 		PlayerEntity player    = event.getPlayer();
 		ItemStack    itemStack = event.getItemStack();
+		Hand         hand      = event.getHand();
 		
 		if ( itemStack == null || itemStack.isEmpty() )
 			return;
@@ -63,12 +67,11 @@ public class VanillaMultipartHandler {
 				return;
 			
 			// Figure out the block *into* which we're placing
-			Direction  clickedFace      = event.getFace();
-			BlockPos   clickedIntoPos   = event.getPos().offset( clickedFace );
-			BlockState clickedIntoState = world.getBlockState( clickedIntoPos );
+			Direction clickedFace = event.getFace();
+			BlockPos  clickedPos  = event.getPos();
 			
-			if ( placer.canPlaceMultipart( world, player, itemStack, clickedIntoPos, clickedFace ) ) {
-				placer.placeMultipart( world, player, itemStack, clickedIntoPos, clickedFace );
+			if ( placer.canPlaceMultipart( world, player, itemStack, hand, clickedPos, clickedFace ) ) {
+				placer.placeMultipart( world, player, itemStack, hand, clickedPos, clickedFace );
 				event.setCancellationResult( ActionResultType.SUCCESS );
 				event.setCanceled( true );
 			}

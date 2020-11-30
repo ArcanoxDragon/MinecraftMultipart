@@ -11,9 +11,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class Blocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create( ForgeRegistries.BLOCKS, MultipartMod.MOD_ID );
 	
-	public static final RegistryObject<Block> MULTIPART_CONTAINER = BLOCKS.register(
-			"multipart_container",
-			() -> new MultipartContainerBlock( Block.Properties.create( Material.MISCELLANEOUS ).noDrops().notSolid() ) );
+	public static final RegistryObject<MultipartContainerBlock> MULTIPART_CONTAINER = BLOCKS.register(
+		"multipart_container",
+		() -> new MultipartContainerBlock( Block.Properties.create( Material.MISCELLANEOUS ).noDrops().notSolid() ) );
 	
 	public static void register( IEventBus eventBus ) {
 		BLOCKS.register( eventBus );

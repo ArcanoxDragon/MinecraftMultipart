@@ -15,9 +15,9 @@ public
 class TileEntities {
 	private static final DeferredRegister<TileEntityType<?>> REGISTRY = DeferredRegister.create( ForgeRegistries.TILE_ENTITIES, MultipartMod.MOD_ID );
 	
-	public static final RegistryObject<TileEntityType<?>> MULTIPART_CONTAINER = REGISTRY.register(
-			Constants.Blocks.MULTIPART_CONTAINER,
-			() -> TileEntityType.Builder.create( MultipartContainerTileEntity::new, Blocks.MULTIPART_CONTAINER.get() ).build( null )
+	public static final RegistryObject<TileEntityType<MultipartContainerTileEntity>> MULTIPART_CONTAINER = REGISTRY.register(
+		Constants.Blocks.MULTIPART_CONTAINER,
+		() -> TileEntityType.Builder.create( MultipartContainerTileEntity::new, Blocks.MULTIPART_CONTAINER.get() ).build( null )
 	);
 	
 	public static void register( IEventBus eventBus ) {
